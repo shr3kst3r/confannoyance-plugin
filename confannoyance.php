@@ -17,7 +17,7 @@ define( 'CONFANNOYANCE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'CONFANNOYANCE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 if(function_exists('add_action')) {
-  add_action('wp', '\confannoyance\check_inputs');
+  add_action('wp', '\confannoyance\check_inputs', 0);
 }
 
 function check_inputs() {
@@ -29,8 +29,9 @@ function check_inputs() {
 }
 
 function display_fake_wpconfig() {
-    include __DIR__ . '/fake-wp-config.php';
+    error_log("Annoying requester of " . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
 
+    include __DIR__ . '/fake-wp-config.php';
     status_header(200);
     die();
 }
