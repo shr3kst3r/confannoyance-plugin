@@ -1,4 +1,4 @@
-=== Blacklistr ===
+=== Confannoyance ===
 Contributors: shr3kst3r
 Tags: platform
 Requires at least: 3.0
