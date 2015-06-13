@@ -1,7 +1,12 @@
 <?php
-$fake_db_name = substr(str_shuffle(md5(time())), 0, 7);
-$fake_db_user = substr(str_shuffle(md5(time())), 0, 7);
-$fake_password = substr(str_shuffle(md5(time())), 0, 10);
+
+function generate_uniq_const_hash($extra_chars) {
+  return hash('sha256', $_SERVER['REMOTE_ADDR'] . wp_salt('nonce') . $extra_chars);
+}
+
+$fake_db_name = substr(generate_uniq_const_hash('dbname'), 0, 7);
+$fake_db_user = substr(generate_uniq_const_hash('dbuser'), 0, 7);
+$fake_password = substr(generate_uniq_const_hash('dbpass'), 0, 10);
 
 echo "<?php\n"; ?>
 # Database Configuration
@@ -15,14 +20,14 @@ define('DB_COLLATE', 'utf8_unicode_ci');
 $table_prefix = 'wp_';
 
 # Security Salts, Keys, Etc
-define('AUTH_KEY',         '<? echo wp_generate_password( 64, true, true ); ?>');
-define('SECURE_AUTH_KEY',  '<? echo wp_generate_password( 64, true, true ); ?>');
-define('LOGGED_IN_KEY',    '<? echo wp_generate_password( 64, true, true ); ?>');
-define('NONCE_KEY',        '<? echo wp_generate_password( 64, true, true ); ?>');
-define('AUTH_SALT',        '<? echo wp_generate_password( 64, true, true ); ?>');
-define('SECURE_AUTH_SALT', '<? echo wp_generate_password( 64, true, true ); ?>');
-define('LOGGED_IN_SALT',   '<? echo wp_generate_password( 64, true, true ); ?>');
-define('NONCE_SALT',       '<? echo wp_generate_password( 64, true, true ); ?>');
+define('AUTH_KEY',         '<? echo substr(generate_uniq_const_hash('AUTH_KEY'), 0, 64); ?>');
+define('SECURE_AUTH_KEY',  '<? echo substr(generate_uniq_const_hash('SECURE_AUTH_KEY'), 0, 64); ?>');
+define('LOGGED_IN_KEY',    '<? echo substr(generate_uniq_const_hash('LOGGED_IN_KEY'), 0, 64); ?>');
+define('NONCE_KEY',        '<? echo substr(generate_uniq_const_hash('NONCE_KEY'), 0, 64); ?>');
+define('AUTH_SALT',        '<? echo substr(generate_uniq_const_hash('AUTH_SALT'), 0, 64); ?>');
+define('SECURE_AUTH_SALT', '<? echo substr(generate_uniq_const_hash('SECURE_AUTH_SALT'), 0, 64); ?>');
+define('LOGGED_IN_SALT',   '<? echo substr(generate_uniq_const_hash('LOGGED_IN_SALT'), 0, 64); ?>');
+define('NONCE_SALT',       '<? echo substr(generate_uniq_const_hash('NONCE_SALT'), 0, 64); ?>');
 
 
 # Localized Language Stuff
